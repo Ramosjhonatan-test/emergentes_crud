@@ -1,0 +1,13 @@
+1. crear proyecto KARDEX  u otro nombre
+2. crear el entorno virtual
+3. activar el entorno virtual
+4. estructura del proyecto	
+    	KARDEX
+        -teplates
+        -venv
+        -app.py
+5. logica del negocio
+    -creacion tablas
+    -creacion de rutas
+6. templates
+    -bootstrap
