@@ -56,5 +56,40 @@ def nuevo_personal():
         return redirect(url_for('personal'))
     return render_template('form_personal.html')
 
+@app.route('/personal/eliminar/<int:id>', methods=['POST'])
+def eliminar_personal(id):
+    print(f"Intentando eliminar el registro con id: {id}")  # Depuración
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM personal WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('personal'))
+
+@app.route('/personal/editar/<int:id>', methods=['GET', 'POST'])
+def editar_personal(id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        nombre = request.form['nombre']
+        telefono = request.form['telefono']
+        fecha_nac = request.form['fecha_nac']
+
+        # Actualizar el registro en la base de datos
+        cursor.execute(
+            "UPDATE personal SET nombre = ?, telefono = ?, fecha_nac = ? WHERE id = ?",
+            (nombre, telefono, fecha_nac, id)
+        )
+        conn.commit()
+        conn.close()
+        return redirect(url_for('personal'))
+    else:
+        # Obtener el registro actual para mostrarlo en el formulario
+        cursor.execute("SELECT * FROM personal WHERE id = ?", (id,))
+        personal = cursor.fetchone()
+        conn.close()
+        return render_template('form_personal.html', personal=personal)
+    
 if __name__ == '__main__':
     app.run(debug=True) 

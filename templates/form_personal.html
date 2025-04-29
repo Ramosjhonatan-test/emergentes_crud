@@ -1,28 +1,20 @@
-{% extends "base.html"%}
+{% extends "base.html" %}
 
 {% block content %}
-
-<div class="card">
-    <div class="card-header">
-        <h2>Nuevo personal</h2>
+<h1>{% if personal %}Editar Personal{% else %}Nuevo Personal{% endif %}</h1>
+<form method="POST" action="{{ url_for('editar_personal', id=personal.id) if personal else url_for('nuevo_personal') }}">
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" value="{{ personal.nombre if personal else '' }}" required>
     </div>
-    <div class="card-body">
-        <form action="" method="POST">
-            <div class="mb-3">
-                <label for="" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="nombre">
-            </div>
-            <div class="bm-3">
-                <label for="" class="form-label">Telefono</label>
-                <input type="text" class="form-control" name="telefono">
-            </div>
-            <div class="mb-3">
-                <label for="" class="form-label">Fecha Nacimiento</label>
-                <input type="date" class="form-control" name="fecha_nac">
-            </div>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-        </form>
+    <div class="mb-3">
+        <label for="telefono" class="form-label">Teléfono</label>
+        <input type="text" class="form-control" id="telefono" name="telefono" value="{{ personal.telefono if personal else '' }}" required>
     </div>
-</div>
+    <div class="mb-3">
+        <label for="fecha_nac" class="form-label">Fecha de Nacimiento</label>
+        <input type="date" class="form-control" id="fecha_nac" name="fecha_nac" value="{{ personal.fecha_nac if personal else '' }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
 {% endblock %}
-
